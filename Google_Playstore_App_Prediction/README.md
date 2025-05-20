@@ -100,11 +100,11 @@ The project will follow these general steps:
 
 Let's look at how the available predictors relate to the variable of interest, i.e., our target variable `Rating`. Make scatter plots (for numeric features) and box plots (for character features) to assess the relations between rating and the other features.
 
-* **Make scatter plot/jointplot for Rating vs. Price**
-* **Make scatter plot/jointplot for Rating vs. Size**
-* **Make scatter plot/jointplot for Rating vs. Reviews**
-* **Make boxplot for Rating vs. Content Rating**
-* **Make boxplot for Ratings vs. Category**
+* **Scatter plot/jointplot for Rating vs. Price**
+* **Scatter plot/jointplot for Rating vs. Size**
+* **Scatter plot/jointplot for Rating vs. Reviews**
+* **Boxplot for Rating vs. Content Rating**
+* **Boxplot for Ratings vs. Category**
 
 [OBSERVATIONS & FINDINGS]
 
