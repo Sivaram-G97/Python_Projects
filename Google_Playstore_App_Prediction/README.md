@@ -50,6 +50,11 @@ The following Python libraries are expected to be used in this analysis:
 * **matplotlib:** For basic plotting and visualization.
 * **seaborn:** For enhanced statistical visualizations.
 * **scikit-learn (sklearn):** For machine learning tasks (e.g., data preprocessing, model selection, model training, evaluation).
+       * **`train_test_split`:** For splitting datasets into training and testing sets to evaluate model performance effectively.
+       * **`LinearRegression`**: For implementing linear regression models, a fundamental algorithm for predicting continuous target variables.
+       * **`mean_squared_error`:** For evaluating the performance of regression models by calculating the average of the squared differences between predicted and actual values.
+       * **`r2_score`:** For evaluating regression model performance, representing the proportion of the variance in the dependent variable that is predictable from the independent variables.
+* **joblib:** For efficiently saving and loading Python objects, especially large NumPy arrays or scikit-learn models. This is crucial for persisting trained models so they can be reused without retraining.
 
 ## Analysis and Prediction Plan
 
@@ -61,10 +66,11 @@ The project will follow these general steps:
 * Check for null values in the data.
 * Get the number of null values for each column.
 
-### 2. Data Cleaning and Formatting
+### 2. Data Cleaning and Preprocessing
 
-* Drop records with nulls in any of the columns.
-* Variables seem to have incorrect type and inconsistent formatting. We need to fix them:
+* **Deduplication:** Duplicate app entries were strategically handled by prioritizing non-null ratings and concrete size values over missing or varying entries.
+* **Handling Null Values:** Drop records with nulls in any of the columns.
+* Standardizing Datatypes: Variables seem to have incorrect type and inconsistent formatting. We need to fix them:
     * **`Size` column:** Has sizes in Kb as well as Mb. To analyze, we'll need to convert these to numeric.
         * Extract the numeric value from the column.
         * Multiply the value by 1,000, if size is mentioned in Mb.
