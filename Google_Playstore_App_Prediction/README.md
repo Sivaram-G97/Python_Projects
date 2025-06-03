@@ -142,27 +142,19 @@ For the steps below, we create a copy of the dataframe to make all the edits. Na
 
 1.  **Clone the repository:**
     ```bash
-    git clone [your_repository_url]
-    cd google_apps_prediction
+    git clone https://github.com/Sivaram-G97/Python_Projects.git
+    cd Python_Projects/Google_Playstore_App_Prediction
     ```
-2.  **Place the dataset:** Download the Google Play Store dataset (e.g., `googleplaystore.csv`) and place it in the `data/` directory within this repository.
+2.  **Place the dataset:** Google_Playstore_App_Prediction/googleplaystore.csv
 3.  **Install the required libraries:**
     ```bash
     pip install -r requirements.txt
     ```
-    (You will create this `requirements.txt` file by listing all libraries you use in your notebook.)
 4.  **Run the Jupyter Notebook:**
     ```bash
-    jupyter notebook google_apps_prediction.ipynb
+    jupyter notebook Google_Playstore_App_Prediction/App_Rating_Prediction.ipynb
     ```
     This will open the notebook in your web browser, and you can then execute the cells.
-
-## Potential Further Work
-
-* Explore more advanced natural language processing (NLP) techniques on the `App` name or `Genres` for more nuanced feature extraction.
-* Implement time series analysis if daily/weekly update data becomes available.
-* Deploy the best-performing model as a web application.
-* Conduct A/B testing simulations based on predictions.
 
 ## Citation
 
