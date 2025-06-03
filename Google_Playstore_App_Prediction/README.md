@@ -39,7 +39,7 @@ This repository typically contains the following files:
 
 * **`google_apps_prediction.ipynb`:** The Jupyter Notebook containing all the Python code for data loading, preprocessing, EDA, modeling, and visualization.
 * **`README.md`:** This file, providing an overview of the project.
-* **`data/`:** A directory to store the raw dataset.
+* **`data`:** A directory to store the raw dataset.
 
 ## Libraries Used
 
@@ -86,57 +86,51 @@ The project will follow these general steps:
 * **`Reviews`**: Should not be more than `Installs` as only those who installed can review the app. If there are any such records, drop them.
 * **For free apps (type = "Free")**, the price should not be > 0. Drop any such rows.
 
-### 4. Univariate Analysis
+### 4. Univariate Analysis & Outlier Treatment
 
-* **Boxplot for Price**:
-* **Boxplot for Reviews**:
-* **Histogram for Rating**:
-* **Histogram for Size**:
+* **Boxplot for Price**: Most of the apps in playstore are free. But if we think about the Price of usual apps on Playstore, $200 Seems to be a very high number so we will drop the columns above it.
+  
+* **Boxplot for Reviews**: While most apps receive very few reviews, a small fraction of highly popular apps accumulate an enormous number of reviews. To prevent outliers from skewing the model, app entries with less than 1,000 reviews or more than 2,000,000 reviews are removed.
+  
+* **Histogram for Installs**: Similar to the 'Reviews' analysis, most apps achieve very limited install numbers, while a small number of highly successful apps account for a massive number of installs. Some apps have very high number of Installs and very low number of install, these apps will skew our model. We have dropped the coulumns with more than 5,00,00,000 Installs and less than 1,000 Intalls.
+  
+* **Histogram for Rating**: Apps in this dataset generally receive positive feedback from users, with a strong preference for ratings above 4.0. Apps with lower ratings are much less common.
+  
+* **Histogram for Size**: App market is dominated by smaller-sized applications, suggesting either a preference for lighter apps, design considerations for efficient downloads/storage, or perhaps a larger volume of simpler utility apps. Larger apps exist but are far less common.
 
-### 5. Outlier Treatment
+### 5. Bivariate Analysis
 
-* **Price**: From the box plot, it seems there are some apps with very high prices. A price of $200 for an application on the Play Store is very high and suspicious!
-    * Check out the records with very high price.
-    * Is 200 indeed a high price?
-    * Drop these as most seem to be junk apps.
-* **Reviews**: Very few apps have very high numbers of reviews. These are all star apps that don't help with the analysis and, in fact, will skew it. Drop records having more than 2 million reviews.
-[OBSERVATIONS & FINDINGS]
+Let's look at how the available predictors relate to the variable of interest, i.e., our target variable `Rating`. Make Joint plots (for numeric features) and box plots (for character features) to assess the relations between rating and the other features.
 
-### 6. Bivariate Analysis
+* **Jointplot for Rating vs. Price** : A heavy concentration of points around Price = 0 indicates that most apps are free or very cheap. Free apps and paid apps can both have high or low ratings. There's no clear trend where increasing price leads to higher/lower ratings.
+  
+* **Jointplot for Rating vs. Size**: Most apps are clustered toward the lower size range, particularly below 20,000 KB (~20 MB). The scatterplot is widely spread out with no clear upward or downward trend. This suggests that app size doesn't significantly influence user rating.
 
-Let's look at how the available predictors relate to the variable of interest, i.e., our target variable `Rating`. Make scatter plots (for numeric features) and box plots (for character features) to assess the relations between rating and the other features.
+* **Jointplot for Rating vs. Reviews**: Apps with ratings between 4.0 and 5.0 are found throughout the x-axis (number of reviews). This indicates that good ratings are not limited to high-review-count apps. Also, popular apps are generally well-rated, or that poorly rated apps don’t get many users/reviews.
+  
+* **Boxplot for Rating vs. Content Rating**: 'Content Rating' appears to be an informative feature for predicting 'Rating'. The distinct distributions, especially for 'Adults only 18+', suggest that this categorical variable provides valuable signals.
+  
+* **Boxplot for Ratings vs. Category**: Across almost all categories, median ratings are above 4.0, indicating that users generally rate apps highly. This suggests user satisfaction is relatively strong in general on the Play Store. Some categories consistently perform better, while others are more inconsistent.
+  
+* **Boxplot for Ratings vs. Genres**: 'Genres' are likely to be an important feature for predicting 'Rating'. The distinct rating distributions across genres suggest that knowing an app's genre provides strong clues about its typical rating.
 
-* **Scatter plot/jointplot for Rating vs. Price**
-* **Scatter plot/jointplot for Rating vs. Size**
-* **Scatter plot/jointplot for Rating vs. Reviews**
-* **Boxplot for Rating vs. Content Rating**
-* **Boxplot for Ratings vs. Category**
+### 6. Data Preprocessing
 
-[OBSERVATIONS & FINDINGS]
-
-### 7. Data Preprocessing
-
-For the steps below, we create a copy of the dataframe to make all the edits. Name it `inp1`.
+For the steps below, we create a copy of the dataframe to make all the edits. Name it **`inp1`**.
 
 * `Reviews` and `Installs` have some values that are still relatively very high. Before building a linear regression model, we need to reduce the skew. Apply log transformation (`np.log1p`) to `Reviews` and `Installs`.
-* Drop columns `App`, `Last Updated`, `Current Ver`, and `Android Ver`. These variables are not useful for our task.
-* Get dummy columns for `Category`, `Genres`, and `Content Rating`. This needs to be done as the models do not understand categorical data, and all data should be numeric. Dummy encoding is one way to convert character fields to numeric. Name of dataframe should be `inp2`.
+* Drop columns `App`, `Size`, `Type`, `Price`, `Last Updated`, `Current Ver`, and `Android Ver`. These variables are not useful for our task.
+* Get dummy columns for `Category`, `Genres`, and `Content Rating`. This needs to be done as the models do not understand categorical data, and all data should be numeric. Dummy encoding is one way to convert character fields to numeric. Name of dataframe should be **`inp2`**.
 
-### 8. Train Test Split
+### 7. Model Building
 
 * Apply 70-30 split. Name the new dataframes `df_train` and `df_test`.
-
-### 9. Separate Dataframes
-
 * Separate the dataframes into `X_train`, `y_train`, `X_test`, and `y_test`.
-
-### 10. Model Building
-
 * We use linear regression as the technique.
    
-### 11. Conclusion and Insights
+### 8. Model Persistance
 
-[OBSERVATIONS & FINDINGS]
+The final trained Linear Regression model is saved to linear_model.sav using the joblib library. This allows for the model to be efficiently loaded and reused for future predictions without the need for retraining, ensuring convenience and consistency.
 
 ## How to Run the Code
 
